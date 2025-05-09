@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GΞΞK CΦDΞ Tetris</title>
+    <!-- Importa a fonte Orbitron do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Container principal que centraliza o conteúdo -->
+    <main class="main-content">
+        <!-- Container específico do jogo com estilo aplicado -->
+        <div class="game-container">
+            <!-- Cabeçalho estilizado com spans para cores diferentes -->
+            <h1><span class="geek">GΞΞK</span><span class="code"> CΦDΞ</span> Tetris</h1>
+
+            <!-- Div do Jogo Ativo -->
+            <div id="gameDiv" class="game-active-area">
+                <!-- Canvas principal do jogo -->
+                <canvas id="myCanvas" width="200" height="400"></canvas>
+
+                <!-- Painel de informações e controles -->
+                <div class="info-panel">
+                    <table id="scoringTable">
+                        <tr>
+                            <td>Nível:</td>
+                            <td id="level">0</td>
+                        </tr>
+                        <tr>
+                            <td>Pontos:</td>
+                            <td id="score">0</td>
+                        </tr>
+                        <tr>
+                            <td>Linhas:</td>
+                            <td id="lines">0</td>
+                        </tr>
+                        <tr>
+                            <td>Próxima:</td>
+                            <td>
+                                <!-- Canvas para mostrar a próxima peça -->
+                                <canvas id="nextFormCanvas" width="120" height="80"></canvas>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- Botões de controle do jogo -->
+                    <div class="controls">
+                        <button id="pauseButton" class="control-button">Pausar</button>
+                        <button id="resetButton" class="control-button">Resetar</button>
+                        <!-- Botão 'Novo Jogo' inicialmente oculto -->
+                        <button id="retryButton" class="control-button" style="display: none;">Novo Jogo</button>
+                    </div>
+                    <!-- Instruções do jogo -->
+                    <p class="instructions">Use ⬅️ ➡️ ⬇️ ESPAÇO</p>
+                </div>
+            </div>
+
+            <!-- Div do Formulário de Pontuação (inicialmente oculta) -->
+            <div id="formDiv" class="score-form-area" style="display: none;">
+                <h2>Fim de Jogo!</h2>
+                <p>Registre sua pontuação:</p>
+                <!-- Formulário para submeter a pontuação -->
+                <form id="form" action="store_score.php" method="post">
+                    <label for="nameField">Nome:</label>
+                    <input id="nameField" type="text" name="name" value="Jogador" required>
+
+                    <label for="scoreField">Pontuação:</label>
+                    <input id="scoreField" type="number" name="score" value="0" readonly>
+
+                    <button id="submitButton" type="submit" class="control-button form-button">Enviar</button>
+                </form>
+                 <!-- Botão para jogar novamente após submeter ou pular -->
+                 <button id="playAgainButton" class="control-button" style="margin-top: 15px;">Jogar Novamente</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé Padrão Atualizado -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <!-- Links internos -->
+            <a href="#privacy" rel="noopener noreferrer">Privacidade</a>
+            <span>|</span>
+            <a href="#services" rel="noopener noreferrer">Serviços</a>
+            <span>|</span>
+            <a href="#about" rel="noopener noreferrer">Sobre</a>
+            <span>|</span>
+            <a href="#terms" rel="noopener noreferrer">Termos</a>
+            <span>|</span>
+            <!-- Link para recarregar a página inicial do jogo -->
+            <a href="index.html" rel="noopener noreferrer">Início</a>
+            <span>|</span>
+            <!-- Link externo para o GitHub (substitua 'seu-usuario-github') -->
+            <a href="https://github.com/seu-usuario-github" target="_blank" rel="noopener noreferrer">Desenvolvido por <span class="geek">GΞΞK</span><span class="code"> CΦDΞ</span></a>
+        </div>
+        <p class="copyright">© <span id="current-year"></span> <span class="geek">GΞΞK</span><span class="code"> CΦDΞ</span>. Todos os direitos reservados.</p>
+    </footer>
+    <!-- Fim do Rodapé Padrão -->
+
+    <!-- Link para o arquivo JavaScript externo (com defer para garantir que o DOM esteja pronto) -->
+    <script src="script.js" defer></script>
+</body>
+</html>

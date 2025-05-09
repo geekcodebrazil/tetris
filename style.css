@@ -1,0 +1,384 @@
+/* Importa a fonte Orbitron */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* --- Variáveis de Cores (Tema Dracula/Neon) --- */
+:root {
+    --bg-gradient-start: #1a1a2e; /* Azul escuro */
+    --bg-gradient-end: #16213e;   /* Azul marinho escuro */
+    --container-bg: rgba(38, 43, 64, 0.8); /* Fundo semi-transparente para o container */
+    --text-color: #e0e0ff;         /* Texto claro com matiz azul/roxo */
+    --text-secondary: #bd93f9;    /* Roxo claro para detalhes */
+    --neon-green: #50fa7b;
+    --neon-pink: #ff79c6;
+    --neon-yellow: #f1fa8c;
+    --neon-blue: #8be9fd;          /* Azul ciano claro */
+    --dark-gray: #44475a;          /* Cinza escuro para bordas/elementos */
+    --medium-gray: #6272a4;        /* Cinza médio */
+    --border-color: var(--medium-gray);
+    --button-bg: var(--dark-gray);
+    --button-hover-bg: var(--medium-gray);
+    --button-text: var(--text-color);
+    --input-bg: var(--dark-gray);
+    --input-border: var(--medium-gray);
+    --input-text: var(--text-color);
+
+    /* Cores das Peças (Ajuste se necessário) */
+    --color-form-0: #50fa7b; /* I-shape */
+    --color-form-1: #8be9fd; /* L-shape */
+    --color-form-2: #ffb86c; /* J-shape (Orange)*/
+    --color-form-3: #f1fa8c; /* O-shape */
+    --color-form-4: #ff79c6; /* S-shape */
+    --color-form-5: #bd93f9; /* T-shape */
+    --color-form-6: #ff5555; /* Z-shape (Red) */
+}
+
+/* --- Reset Básico e Box Model --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Estilos Globais e Layout Flexbox --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte fallback */
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o body ocupe toda a altura */
+    line-height: 1.6;
+    overflow-x: hidden; /* Previne scroll horizontal */
+}
+
+.main-content {
+    flex-grow: 1; /* Permite que o conteúdo principal cresça e empurre o rodapé */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Espaçamento geral */
+}
+
+/* --- Container Principal do Jogo --- */
+.game-container {
+    max-width: 650px; /* Largura máxima aumentada para acomodar o painel lateral */
+    width: 100%; /* Ocupa o espaço disponível até o max-width */
+    padding: 30px;
+    background-color: var(--container-bg);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--dark-gray);
+    text-align: center;
+}
+
+/* --- Cabeçalho (Título) --- */
+h1 {
+    font-family: 'Orbitron', sans-serif; /* Fonte especial para o título */
+    font-size: 2.5rem; /* Tamanho da fonte ajustado */
+    margin-bottom: 25px;
+    color: var(--text-color); /* Cor padrão */
+    text-shadow: 0 0 5px var(--neon-pink); /* Leve brilho neon */
+}
+
+/* Cores específicas para spans no título */
+h1 .geek {
+    color: var(--neon-green);
+}
+
+h1 .code {
+    color: var(--neon-pink);
+}
+
+/* --- Área Ativa do Jogo (Canvas + Painel) --- */
+.game-active-area {
+    display: flex;
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: flex-start; /* Alinha os itens no topo */
+    gap: 25px; /* Espaço entre o canvas e o painel de informações */
+    flex-wrap: wrap; /* Permite quebrar a linha em telas menores */
+}
+
+/* --- Canvas do Jogo e Próxima Peça --- */
+#myCanvas, #nextFormCanvas {
+    border: 2px solid var(--border-color); /* Borda sutil com cor do tema */
+    background-color: #0f101c; /* Fundo bem escuro para o canvas */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    border-radius: 5px; /* Bordas levemente arredondadas */
+}
+
+#myCanvas {
+    /* O tamanho é definido via atributos width/height no HTML */
+}
+
+#nextFormCanvas {
+    /* O tamanho é definido via atributos width/height no HTML */
+    background-color: transparent; /* Fundo transparente para ver a próxima peça */
+    border-color: var(--dark-gray);
+}
+
+/* --- Painel de Informações (Score, Nível, etc.) --- */
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza itens dentro do painel */
+    gap: 15px; /* Espaço entre os elementos do painel */
+    min-width: 150px; /* Largura mínima para o painel */
+}
+
+#scoringTable {
+    width: 100%;
+    border-collapse: collapse; /* Remove espaços entre células */
+    margin-bottom: 10px;
+}
+
+#scoringTable td {
+    padding: 8px 5px;
+    text-align: left;
+    font-size: 0.95rem;
+    border-bottom: 1px dashed var(--dark-gray); /* Linha separadora sutil */
+}
+
+#scoringTable td:first-child {
+    font-weight: bold;
+    color: var(--text-secondary); /* Cor de destaque para labels */
+}
+
+#scoringTable td:last-child {
+    text-align: right;
+    font-weight: bold;
+    color: var(--neon-yellow); /* Cor de destaque para valores */
+}
+
+/* --- Botões --- */
+.controls {
+    display: flex;
+    flex-direction: column; /* Botões empilhados verticalmente */
+    gap: 10px; /* Espaço entre botões */
+    width: 100%; /* Botões ocupam a largura do painel */
+}
+
+.control-button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Ocupa a largura da div .controls */
+}
+
+.control-button:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-2px); /* Efeito de levantar ao passar o mouse */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.control-button:active {
+    transform: translateY(0); /* Retorna à posição original ao clicar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo específico para botão 'Pausar' quando ativo (Continuar) */
+.control-button.paused {
+    background-color: var(--neon-pink); /* Cor chamativa para indicar estado */
+    color: var(--bg-gradient-start);
+}
+.control-button.paused:hover {
+     background-color: #ff9ed7; /* Cor mais clara no hover */
+}
+
+
+/* --- Instruções --- */
+.instructions {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+/* --- Formulário de Pontuação --- */
+.score-form-area {
+    display: flex; /* Usado para controlar visibilidade no JS */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Espaço entre os elementos do form */
+    padding: 20px;
+    border-top: 1px solid var(--dark-gray); /* Linha separadora */
+    margin-top: 20px;
+}
+
+.score-form-area h2 {
+    color: var(--neon-green);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Faz inputs ocuparem a largura */
+    gap: 10px;
+    width: 100%;
+    max-width: 300px; /* Limita largura do form */
+}
+
+#form label {
+    font-weight: bold;
+    color: var(--text-secondary);
+    text-align: left;
+    margin-bottom: -5px; /* Ajuste fino */
+}
+
+#form input[type="text"],
+#form input[type="number"] {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#form input[readonly] {
+    background-color: var(--dark-gray); /* Fundo diferente para readonly */
+    cursor: not-allowed;
+}
+
+/* Botão de submit herda estilo base e adiciona cor */
+#submitButton, #playAgainButton {
+    margin-top: 10px; /* Espaço acima do botão */
+    background-color: var(--neon-green);
+    color: var(--bg-gradient-start); /* Texto escuro para contraste */
+}
+
+#submitButton:hover, #playAgainButton:hover {
+     background-color: #80ffb8; /* Verde mais claro no hover */
+}
+
+/* --- Rodapé --- */
+.site-footer {
+    flex-shrink: 0; /* Impede que o rodapé encolha */
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: 2rem; /* Espaço acima do rodapé */
+    background-color: rgba(15, 16, 28, 0.7); /* Fundo levemente transparente e escuro */
+    color: var(--medium-gray); /* Cor de texto mais suave para o rodapé */
+    font-size: 0.85rem;
+    border-top: 1px solid var(--dark-gray);
+}
+
+.footer-links {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary); /* Roxo claro para links */
+    text-decoration: none;
+    margin: 0 8px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--neon-pink); /* Rosa neon no hover */
+    text-decoration: underline;
+}
+
+.footer-links span {
+    margin: 0 3px; /* Espaço em volta dos separadores '|' */
+}
+
+/* Estilos para spans .geek e .code no rodapé */
+.site-footer .geek {
+    color: var(--neon-green);
+    font-weight: bold;
+}
+
+.site-footer .code {
+    color: var(--neon-pink);
+    font-weight: bold;
+}
+
+.copyright {
+    font-size: 0.8rem;
+}
+
+/* --- Responsividade --- */
+
+/* Telas Médias (Ex: Tablets) */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .game-active-area {
+        flex-direction: column; /* Empilha canvas e painel */
+        align-items: center; /* Centraliza na coluna */
+    }
+
+    .info-panel {
+        width: 80%; /* Aumenta a largura do painel */
+        max-width: 300px; /* Limita a largura máxima */
+        margin-top: 20px; /* Espaço quando empilhado */
+    }
+}
+
+/* Telas Pequenas (Ex: Smartphones) */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px; /* Reduz tamanho de fonte base */
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    .game-container {
+        padding: 15px;
+        /* O Canvas tem tamanho fixo, pode precisar ajustar a escala ou
+           a forma como o layout se comporta se ficar muito apertado.
+           Uma opção seria escalar o canvas via CSS transform: scale(),
+           mas isso pode afetar a qualidade visual. */
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+
+     #myCanvas {
+        /* Potencialmente reduzir a escala do canvas se necessário */
+        /* transform: scale(0.9); */
+        /* transform-origin: top center; */
+    }
+
+    .info-panel {
+        width: 90%;
+    }
+
+    .control-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    #scoringTable td {
+        padding: 6px 3px;
+    }
+
+    .site-footer {
+        padding: 1rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .footer-links a, .footer-links span {
+        margin: 0 4px; /* Reduz margens nos links do rodapé */
+    }
+}
